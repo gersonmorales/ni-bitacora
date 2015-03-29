@@ -1,0 +1,11 @@
+<?php echo Form::open() ?>
+    <input name="mode" type="hidden" value="auth">
+
+    <label for="login">Usuario:</label>
+    <?php echo Form::text('login') ?>
+
+    <label for="password">Clave:</label>
+    <?php echo Form::pass('password') ?>
+
+   <?php echo Form::submit('enviar') ?>
+<?php echo Form::close() ?>
