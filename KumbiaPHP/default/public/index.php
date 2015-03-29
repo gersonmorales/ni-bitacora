@@ -55,7 +55,8 @@ define('PRODUCTION', FALSE);
  * Define el APP_PATH
  *
  * APP_PATH:
- * - Ruta al directorio de la aplicación (por defecto la ruta al directorio app)
+ * - Ruta al directorio de la aplicación (por defecto la ruta al directorio 
+ *   app)
  * - Esta ruta se utiliza para cargar los archivos de la aplicacion
  */
 define('APP_PATH', dirname(dirname(__FILE__)) . '/app/');
@@ -64,7 +65,8 @@ define('APP_PATH', dirname(dirname(__FILE__)) . '/app/');
  * Define el CORE_PATH
  *
  * CORE_PATH:
- * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio core)
+ * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta 
+ *   al directorio core)
  */
 define('CORE_PATH', dirname(dirname(APP_PATH)) . '/core/');
 
@@ -73,8 +75,9 @@ define('CORE_PATH', dirname(dirname(APP_PATH)) . '/core/');
  *
  * PUBLIC_PATH:
  * - Path para genera la Url en los links a acciones y controladores
- * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder de lado de
- *   cliente (con el navegador web) y es relativa al DOCUMENT_ROOT del servidor web
+ * - Esta ruta la utiliza Kumbia como base para generar las Urls para acceder 
+ *   de lado de cliente (con el navegador web) y es relativa al DOCUMENT_ROOT 
+ *   del servidor web
  *
  *  EN PRODUCCION ESTA CONSTANTE DEBERÍA SER ESTABLECIDA MANUALMENTE
  */
