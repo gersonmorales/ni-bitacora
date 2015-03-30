@@ -2,16 +2,16 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `rad` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `rad` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`paciente`
+-- Table `rad`.`paciente`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`paciente` ;
+DROP TABLE IF EXISTS `rad`.`paciente` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`paciente` (
-  `pac_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `rad`.`paciente` (
+  `pac_id` INT NOT NULL AUTO_INCREMENT,
   `pac_nombre` VARCHAR(45) NULL,
   `pac_apellido1` VARCHAR(45) NULL,
   `pac_apellido2` VARCHAR(45) NULL,
@@ -20,12 +20,12 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`profesional`
+-- Table `rad`.`profesional`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`profesional` ;
+DROP TABLE IF EXISTS `rad`.`profesional` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`profesional` (
-  `pro_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `rad`.`profesional` (
+  `pro_id` INT NOT NULL AUTO_INCREMENT,
   `pro_nombre` VARCHAR(45) NULL,
   `pro_apellido1` VARCHAR(45) NULL,
   `pro_apellido2` VARCHAR(45) NULL,
@@ -36,11 +36,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`atencion`
+-- Table `rad`.`atencion`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`atencion` ;
+DROP TABLE IF EXISTS `rad`.`atencion` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`atencion` (
+CREATE TABLE IF NOT EXISTS `rad`.`atencion` (
   `ate_fecha` DATE NOT NULL,
   `ate_obs` VARCHAR(255) NULL,
   `pac_id` INT NOT NULL,
@@ -50,12 +50,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`atencion` (
   INDEX `fk_atencion_profesional1_idx` (`pro_id` ASC),
   CONSTRAINT `fk_atencion_paciente`
     FOREIGN KEY (`pac_id`)
-    REFERENCES `mydb`.`paciente` (`pac_id`)
+    REFERENCES `rad`.`paciente` (`pac_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_atencion_profesional1`
     FOREIGN KEY (`pro_id`)
-    REFERENCES `mydb`.`profesional` (`pro_id`)
+    REFERENCES `rad`.`profesional` (`pro_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
