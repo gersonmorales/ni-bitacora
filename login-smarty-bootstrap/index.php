@@ -19,7 +19,6 @@
       $result[][$row['pac_id']] = $row['pac_nombre']." ".$row['pac_apellido1']." ".$row['pac_apellido2'];
   }
 
-
   $nombre = $_SESSION['usernombre'] . " " . $_SESSION['userapellido'];
   
   $smarty->assign('sesion',$_SESSION);
