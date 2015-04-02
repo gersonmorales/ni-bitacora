@@ -1,6 +1,7 @@
 <?php
 
 session_start(); 
+
 include_once('conexion.php');
 
 /*
@@ -8,16 +9,18 @@ include_once('conexion.php');
   verificar_login, esta se encargara de hacer una consulta a la base de 
   datos para saber si el usuario ingresado es correcto o no.
 */
+
 function verificar_login($user,$password,&$result)
 {
     $sql = "SELECT * FROM profesional ";
     $sql.= " WHERE pro_email = '$user' and pro_password = '$password'";
-    $rec = mysql_query($sql); 
+    mysql_query("SET NAMES 'utf8'");
+    $rec = mysql_query($sql);
     $count = 0; 
     
     while($row = mysql_fetch_object($rec)) { 
         $count++; 
-	$result = $row; 
+        $result = $row; 
     }
     
     if($count == 1)

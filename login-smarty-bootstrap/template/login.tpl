@@ -3,18 +3,41 @@
 {include file="navbar.tpl"}
 
 <div class="container">
-<h2 class="form-signin-heading">Please sign in</h2>
-      <form action="{$faction}" method="post" class="form-group">
-        {if isset($msg)}
-          <div class="alert alert-warning" role="alert">{$msg}</div>
-        {/if}
-        <label for="login" class="sr-only">Email address</label>
-        <input type="email" id="login" name="login" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
- 		<br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
+<form class="form-horizontal" action="{$faction}" method="post">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Sign In</legend>
+
+<!-- Text input-->
+<div class="form-group">
+{if isset($msg)}
+  <div class="alert alert-warning" role="alert">{$msg}</div>
+{/if}
+  <label class="col-md-4 control-label" for="login">E-Mail</label>  
+  <div class="col-md-4">
+  <input id="login" name="login" type="text" placeholder="email" class="form-control input-md" required="required" autofocus>
+  </div>
+</div>
+
+<!-- Password input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="password">Password</label>
+  <div class="col-md-4">
+    <input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" required="required">
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton"></label>
+  <div class="col-md-4">
+    <button id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit">Sign In</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
 </div>
 
 {include file="footer.tpl"}  
