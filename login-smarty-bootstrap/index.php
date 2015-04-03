@@ -20,11 +20,13 @@
   }
 
   $nombre = $_SESSION['usernombre'] . " " . $_SESSION['userapellido'];
-  
+
   $smarty->assign('sesion',$_SESSION);
+  $smarty->assign('pro_id',$_SESSION['userid']);
   $smarty->assign('pacientes',$result);
   $smarty->assign('nombre',$nombre);
   $smarty->assign('title','Pagina principal');
   $smarty->assign('today',date("Y-m-d"));
+  $smarty->assign('faction','registrar.php');
   $smarty->display('index.tpl');
 ?>
