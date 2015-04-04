@@ -16,7 +16,14 @@
 {/if}
   <label class="col-md-4 control-label" for="login">E-Mail</label>  
   <div class="col-md-4">
+    <div class="input-group">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-user">
+      </span></span>
+      <input type="text" class="form-control" placeholder="email" id="login" name="login">
+    </div>
+  <!-- 
   <input id="login" name="login" type="text" placeholder="email" class="form-control input-md" required="required" autofocus>
+  -->
   </div>
 </div>
 
@@ -24,7 +31,14 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="password">Password</label>
   <div class="col-md-4">
+    <div class="input-group">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-lock">
+      </span></span>
+      <input  id="password" name="password" type="password" placeholder="password" class="form-control">
+    </div>
+<!--
     <input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" required="required">
+-->
   </div>
 </div>
 

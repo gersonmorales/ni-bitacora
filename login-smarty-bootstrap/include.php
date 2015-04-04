@@ -1,5 +1,6 @@
 <?php 
   require('lib/Smarty/Smarty.class.php');
+  require('lib/mis_funciones.php');
   
   $smarty = new Smarty;
   $smarty->template_dir = 'template/';

@@ -39,9 +39,10 @@
   $nombre = $_SESSION['usernombre']." ".$_SESSION['userapellido'];
 
   if ($error != 0)
-	$smarty->assign('error',$error);
+    $smarty->assign('error',$error);
   $smarty->assign('nombre',$nombre);
   $smarty->assign('sql',$sql);
+  $smarty->assign('ipcliente',get_client_ip_server());
   $smarty->assign('title','Pagina principal');
   $smarty->display('registrar.tpl');
 
