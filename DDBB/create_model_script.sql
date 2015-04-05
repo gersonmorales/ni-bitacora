@@ -70,7 +70,14 @@ DROP TABLE IF EXISTS `rad`.`log` ;
 CREATE TABLE IF NOT EXISTS `rad`.`log` (
   `log_datetime` DATETIME NOT NULL,
   `log_action` VARCHAR(255) NULL,
-  `log_ip` VARCHAR(16) NOT NULL)
+  `log_ip` VARCHAR(16) NOT NULL,
+  `pro_id` INT NOT NULL,
+  INDEX `fk_log_profesional1_idx` (`pro_id` ASC),
+  CONSTRAINT `fk_log_profesional1`
+    FOREIGN KEY (`pro_id`)
+    REFERENCES `rad`.`profesional` (`pro_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
