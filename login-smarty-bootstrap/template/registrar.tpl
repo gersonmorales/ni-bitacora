@@ -13,6 +13,6 @@
   </div>
 
 {/if}
-{$ipcliente}
+
 </div>
 {include file="footer.tpl"}

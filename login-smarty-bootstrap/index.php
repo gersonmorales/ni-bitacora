@@ -8,6 +8,15 @@
   require('include.php');
   include_once('conexion.php');
 
+/* Registro de actividad */
+  $ipcli = get_client_ip_server();
+  $pro_id = $_SESSION['userid'];
+
+  $sql = "INSERT INTO log (log_datetime, pro_id, log_ip, log_action) ";
+  $sql.= "VALUES (NOW(), $pro_id, '$ipcli', 'LOG IN')";
+  mysql_query($sql);
+  #error_log("[SQL] $sql",0);
+
   $sql = "SELECT pac_id, pac_nombre, pac_apellido1, pac_apellido2 ";
   $sql.= "FROM paciente ";    
   $sql.= "WHERE 1 ";

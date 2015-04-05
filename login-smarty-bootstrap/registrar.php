@@ -17,6 +17,15 @@
      isset($_POST['pro_id']) && !empty($_POST['pro_id']) &&
      isset($_POST['pac_id']) && !empty($_POST['pac_id'])) {
 
+  /* Registro de actividad */
+  $ipcli = get_client_ip_server();
+  $pro_id = $_SESSION['userid'];
+
+  $sql = "INSERT INTO log (log_datetime, pro_id, log_ip, log_action) ";
+  $sql.= "VALUES (NOW(), $pro_id, '$ipcli', 'REGISTER')";
+  mysql_query($sql);
+  #error_log("[SQL] $sql",0);
+
 	/* Con esta sentencia SQL insertaremos los datos en la base de datos
 	 */
 	$sql = "INSERT INTO atencion (ate_fecha, ate_obs, pac_id, pro_id) ";
@@ -33,7 +42,16 @@
 		$error = "Ha habido un error al insertar los valores. $my_error";
 
   } else {
-	$error = "Error, no ha introducido todos los datos";
+    /* Registro de actividad */
+    $ipcli = get_client_ip_server();
+    $pro_id = $_SESSION['userid'];
+
+    $sql = "INSERT INTO log (log_datetime, pro_id, log_ip, log_action) ";
+    $sql.= "VALUES (NOW(), $pro_id, '$ipcli', 'REGISTER ERROR')";
+    mysql_query($sql);
+    #error_log("[SQL] $sql",0);
+
+  	$error = "Error, no ha introducido todos los datos";
   }
 
   $nombre = $_SESSION['usernombre']." ".$_SESSION['userapellido'];
