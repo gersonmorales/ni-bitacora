@@ -12,6 +12,13 @@
 // Require our Event class and datetime utilities
 require dirname(__FILE__) . '/lib/utils.php';
 include_once('conexion.php');
+require('lib/col.php');
+
+session_start();
+
+if(!isset($_SESSION['userid'])) {
+    header("location:login.php");
+}
 
 // Short-circuit if the client did not give us a date range.
 if (!isset($_GET['start']) || !isset($_GET['end'])) {
@@ -31,26 +38,42 @@ if (isset($_GET['timezone'])) {
 	$timezone = new DateTimeZone($_GET['timezone']);
 }
 
+$pro_id = 0;
+if(isset($_SESSION['userid'])) {
+    $pro_id = $_SESSION['userid'];
+}
+
 // Read and parse our events JSON file into an array of event data arrays.
 mysql_query("SET NAMES 'utf8'");
 $sql ="SELECT a.ate_id as id,
 			  CONCAT(pac.pac_nombre, ' ', pac.pac_apellido1, ' (', 
 					 pro.pro_nombre, ' ', pro.pro_apellido1, ')') as title, 
-			  a.ate_fecha as start
+			  a.ate_fecha as start,
+			  a.pac_id as pac_id
 	   FROM paciente pac, profesional pro, atencion a 
-	   WHERE a.pro_id = pro.pro_id and
+	   WHERE a.pro_id = pro.pro_id AND
 	   		 a.pac_id = pac.pac_id";
+if ($pro_id > 0)
+	$sql.=" AND a.pro_id = $pro_id";
+$sql .= " ORDER BY a.pac_id";
+#error_log("[SQL] $sql",0);
 
 $rec = mysql_query($sql);
 $reg = array(); //creamos un array
- 
+$color_id = 0;
+$prev_id = 0;
 while($row = mysql_fetch_array($rec)) 
-{ 
+{
     $id=$row['id'];
+    $pac_id=$row['pac_id'];
     $title=$row['title'];
     $start=$row['start'];
- 
-    $reg[] = array('id'=> $id, 'title'=> $title, 'start'=> $start); 
+	if ($prev_id != $pac_id) {
+		$color_id++;
+		$prev_id = $pac_id;
+	}
+    $reg[] = array('id'=> $id, 'title'=> $title, 'start'=> $start,
+    			   'color'=> $color[$color_id]);
 }
 
 $json = json_encode($reg);
