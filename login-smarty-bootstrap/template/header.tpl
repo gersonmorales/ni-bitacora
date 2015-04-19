@@ -22,14 +22,6 @@
     <script src="js/jquery.min.js"></script>
 
     {if isset($cal)}
-    <link rel='stylesheet' href='css/fullcalendar.css' />
-    <link rel='stylesheet' href='css/fullcalendar.print.css' media='print' />
-
-    <script src='js/moment.min.js'></script>
-    <script src='js/fullcalendar.min.js'></script>
-    {/if}
-
-    {if isset($cal)}
       {include file="cal_head.tpl"}
     {/if}
 

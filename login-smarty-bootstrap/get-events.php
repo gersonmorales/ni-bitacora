@@ -10,10 +10,9 @@
 //--------------------------------------------------------------------------------------------------
 
 // Require our Event class and datetime utilities
-require dirname(__FILE__) . '/lib/utils.php';
-include_once('conexion.php');
+require('lib/utils.php');
 require('lib/col.php');
-
+include_once('conexion.php');
 session_start();
 
 if(!isset($_SESSION['userid'])) {
