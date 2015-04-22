@@ -1,13 +1,15 @@
 <?php
 
-//--------------------------------------------------------------------------------------------------
-// This script reads event data from a JSON file and outputs those events which are within the range
-// supplied by the "start" and "end" GET parameters.
-//
-// An optional "timezone" GET parameter will force all ISO8601 date stings to a given timezone.
-//
-// Requires PHP 5.2.0 or higher.
-//--------------------------------------------------------------------------------------------------
+/*
+-------------------------------------------------------------------------------
+ This script reads event data from a JSON file and outputs those events which 
+are within the range supplied by the "start" and "end" GET parameters.
+ An optional "timezone" GET parameter will force all ISO8601 date stings to a 
+given timezone.
+
+ Requires PHP 5.2.0 or higher.
+-------------------------------------------------------------------------------
+*/
 
 // Require our Event class and datetime utilities
 require('lib/utils.php');
@@ -21,7 +23,7 @@ if(!isset($_SESSION['userid'])) {
 
 // Short-circuit if the client did not give us a date range.
 if (!isset($_GET['start']) || !isset($_GET['end'])) {
-	die("Please provide a date range.");
+    die("Please provide a date range.");
 }
 
 // Parse the start/end parameters.
@@ -34,45 +36,61 @@ $range_end = parseDateTime($_GET['end']);
 // Parse the timezone parameter if it is present.
 $timezone = null;
 if (isset($_GET['timezone'])) {
-	$timezone = new DateTimeZone($_GET['timezone']);
+    $timezone = new DateTimeZone($_GET['timezone']);
 }
 
-$pro_id = 0;
-if(isset($_SESSION['userid'])) {
-    $pro_id = $_SESSION['userid'];
+// Parse filters
+$id_filtro = "";
+foreach (array_keys($_GET) as $key => $value) 
+{
+  list($empty, $id) = explode("pac_", $value);
+  if (empty($empty) AND is_numeric($id) AND $_GET[$value] == "true") {
+    $id_filtro .= " {$id},";
+  }
 }
+$filtro_pac = substr($id_filtro, 0, -1);
 
+$pro_id = $_SESSION['userid'];
 // Read and parse our events JSON file into an array of event data arrays.
 mysql_query("SET NAMES 'utf8'");
 $sql ="SELECT a.ate_id as id,
-			  CONCAT(pac.pac_nombre, ' ', pac.pac_apellido1, ' (', 
-					 pro.pro_nombre, ' ', pro.pro_apellido1, ')') as title, 
-			  a.ate_fecha as start,
-			  a.pac_id as pac_id
-	   FROM paciente pac, profesional pro, atencion a 
-	   WHERE a.pro_id = pro.pro_id AND
-	   		 a.pac_id = pac.pac_id";
-if ($pro_id > 0)
-	$sql.=" AND a.pro_id = $pro_id";
-$sql .= " ORDER BY a.pac_id";
-#error_log("[SQL] $sql",0);
+              CONCAT(pac.pac_nombre, ' ', pac.pac_apellido1, ' (', 
+                     pro.pro_nombre, ' ', pro.pro_apellido1, ')') as title, 
+              a.ate_fecha as start,
+              a.pac_id as pac_id
+       FROM paciente pac, profesional pro, atencion a 
+       WHERE a.pro_id = pro.pro_id
+         AND a.pac_id = pac.pac_id";
+
+$sql.=" AND a.pro_id = $pro_id ";
+// La primera llamada es sin filtro
+if ($_GET['new'] == "1") {
+  # code...
+  $sql.=" AND a.pac_id IN ( {$filtro_pac} ) ";
+}
+$sql.="ORDER BY a.pac_id";
+error_log("[SQL] $sql",0);
 
 $rec = mysql_query($sql);
-$reg = array(); //creamos un array
+$reg = array();
+$select = array();
 $color_id = 0;
 $prev_id = 0;
 while($row = mysql_fetch_array($rec)) 
 {
     $id=$row['id'];
     $pac_id=$row['pac_id'];
+    
     $title=$row['title'];
     $start=$row['start'];
-	if ($prev_id != $pac_id) {
-		$color_id++;
-		$prev_id = $pac_id;
-	}
-    $reg[] = array('id'=> $id, 'title'=> $title, 'start'=> $start,
-    			   'color'=> $color[$color_id]);
+    if ($prev_id != $pac_id) {
+        $color_id++;
+        $prev_id = $pac_id;
+
+        $select[] = array('id'=> $pac_id, 'text'=> strstr($title, '(', true));
+    }
+    $reg[] = array('id'=> $pac_id, 'title'=> $title, 'start'=> $start,
+                   'color'=> $color[$color_id]);
 }
 
 $json = json_encode($reg);
@@ -81,15 +99,15 @@ $input_arrays = json_decode($json, true);
 
 // Accumulate an output array of event data arrays.
 $output_arrays = array();
-foreach ($input_arrays as $array) {
+foreach ($input_arrays as $array) 
+{
+    // Convert the input array into a useful Event object
+    $event = new Event($array, $timezone);
 
-	// Convert the input array into a useful Event object
-	$event = new Event($array, $timezone);
-
-	// If the event is in-bounds, add it to the output
-	if ($event->isWithinDayRange($range_start, $range_end)) {
-		$output_arrays[] = $event->toArray();
-	}
+    // If the event is in-bounds, add it to the output
+    if ($event->isWithinDayRange($range_start, $range_end)) {
+        $output_arrays[] = $event->toArray();
+    }
 }
 
 // Send JSON to the client.
