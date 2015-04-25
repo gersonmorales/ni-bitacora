@@ -54,8 +54,10 @@ $pro_id = $_SESSION['userid'];
 // Read and parse our events JSON file into an array of event data arrays.
 mysql_query("SET NAMES 'utf8'");
 $sql ="SELECT a.ate_id as id,
-              CONCAT(pac.pac_nombre, ' ', pac.pac_apellido1, ' (', 
-                     pro.pro_nombre, ' ', pro.pro_apellido1, ')') as title, 
+              pac.pac_nombre as pac_nombre, 
+              pac.pac_apellido1 as pac_apellido1,
+              pro.pro_nombre as pro_nombre,
+              pro.pro_apellido1 as pro_apellido1, 
               a.ate_fecha as start,
               a.pac_id as pac_id
        FROM paciente pac, profesional pro, atencion a 
@@ -64,12 +66,12 @@ $sql ="SELECT a.ate_id as id,
 
 $sql.=" AND a.pro_id = $pro_id ";
 // La primera llamada es sin filtro
-if ($_GET['new'] == "1") {
+if ($_GET['new'] == "1" ) {
   # code...
   $sql.=" AND a.pac_id IN ( {$filtro_pac} ) ";
 }
 $sql.="ORDER BY a.pac_id";
-error_log("[SQL] $sql",0);
+//error_log("[SQL] $sql",0);
 
 $rec = mysql_query($sql);
 $reg = array();
@@ -81,10 +83,11 @@ while($row = mysql_fetch_array($rec))
     $id=$row['id'];
     $pac_id=$row['pac_id'];
     
-    $title=$row['title'];
+    $title=$row['pac_nombre']." ".$row['pac_apellido1'];
     $start=$row['start'];
     if ($prev_id != $pac_id) {
-        $color_id++;
+      // Para que siempre tenga el mismo color
+        $color_id = ($pac_id % count($color));
         $prev_id = $pac_id;
 
         $select[] = array('id'=> $pac_id, 'text'=> strstr($title, '(', true));

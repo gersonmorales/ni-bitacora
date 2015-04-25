@@ -37,5 +37,6 @@
   $smarty->assign('title','Pagina principal');
   $smarty->assign('today',date("Y-m-d"));
   $smarty->assign('faction','registrar.php');
+  $smarty->assign('page','main');
   $smarty->display('index.tpl');
 ?>

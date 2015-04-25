@@ -9,7 +9,6 @@
   	<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
   	Información registrada
   </div>
-  <a href="cal.php">Mi calendario</a>
 {/if}
 
 </div>

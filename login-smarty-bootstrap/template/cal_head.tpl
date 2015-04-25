@@ -1,3 +1,4 @@
+    <link rel='stylesheet' href='css/simple-sidebar.css' />
     <link rel='stylesheet' href='css/fullcalendar.css' />
     <link rel='stylesheet' href='css/fullcalendar.print.css' media='print' />
 
@@ -23,7 +24,7 @@
 				right: 'month,agendaWeek,agendaDay'
 			},
 			defaultDate: '2015-02-12',
-			editable: true,
+			editable: false,
 			businessHours: true,
 			eventLimit: true, // allow "more" link when too many events
 			eventSources: [calSrc[0]],

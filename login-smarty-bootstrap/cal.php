@@ -41,5 +41,6 @@
   $smarty->assign('pac2js',substr($to_js, 0, -2));
   $smarty->assign('today',date("Y-m-d"));
   $smarty->assign('cal','yes');
+  $smarty->assign('page','repo');
   $smarty->display('cal.tpl');
 ?>
